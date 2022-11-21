@@ -46,3 +46,19 @@ $background-app: rgb(207, 204, 204);
   flex-direction: column;
   justify-content: center;
 }
+
+.tags {
+  display: flex;
+  list-style-type: none;
+  flex-wrap: wrap;
+  li{
+    margin: 0 5px;
+    &:hover {
+      cursor: pointer;
+      color: blue;
+    }
+  }
+  .active-tag {
+    color: blue;
+  }
+}

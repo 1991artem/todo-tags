@@ -1,3 +1,7 @@
+import {
+  CSSTransition,
+  TransitionGroup,
+} from 'react-transition-group';
 import { ITodos } from "../../interfaces/interfaces";
 import './task.scss';
 import Task from "./Task";
@@ -7,15 +11,25 @@ interface IList {
 }
 
 function List({todos}: IList) {
-
   return ( 
     <div className="list-todos">
       {
-        !todos.length? <h3 style={{textAlign: "center"}}>Empty list</h3>
-        : 
-        todos.map((todos: ITodos, index: number) => {
-          return <Task task={todos} key={index} />
-        })
+        todos.length ?
+        <TransitionGroup appear={true}>
+          {
+        todos.map((todos: ITodos) => (
+          <CSSTransition
+          key={todos.id}
+          timeout={500}
+          classNames="task"
+          >
+            <Task task={todos} />
+          </CSSTransition>
+        ))
+      }
+      </TransitionGroup>
+        :
+        <h3 style={{textAlign: "center"}}>Empty list</h3>
       }
     </div>
    );

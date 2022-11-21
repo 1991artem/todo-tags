@@ -35,3 +35,18 @@ $button-color: rgb(207, 204, 204);
 .complited {
   text-decoration: line-through;
 }
+
+.task-enter {
+  transform: translateX(-650px);
+}
+.task-enter-active {
+  transform: translateX(0px);
+  transition: all 500ms ease-in;
+}
+.task-exit {
+  opacity: 1;
+}
+.task-exit-active {
+  transform: translateX(-650px);
+  transition: all 500ms ease-in;
+}
