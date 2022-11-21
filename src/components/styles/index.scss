@@ -1,0 +1,48 @@
+@import "~bootstrap/scss/bootstrap";
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+
+$background-app: rgb(207, 204, 204);
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+#root {
+  width: 100vw;
+  height: 100vh;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 20px;
+
+  font-family: 'Montserrat', sans-serif;
+}
+
+.App {
+  max-width: 800px;
+  width: 100vw;
+  height: auto;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  padding: 20px;
+  background-color: $background-app;
+  h1{
+    text-align: center;
+    justify-content: start;
+  }
+}
+
+.list {
+  min-height: 200px;
+  
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
