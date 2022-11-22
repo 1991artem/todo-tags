@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { NavLink } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 interface ITags {
   tags: string[];
@@ -8,12 +9,14 @@ interface ITags {
 }
 
 function Tags({tags, setTag, tag}:ITags) {
+  let navigate = useNavigate();
   const allTag = [tag]
   const tagsArray = [...allTag, ...tags]
   const [activeTag, setActiveTag] = useState(tagsArray[0]);
   const tagsClickHandler = (tag: string) => {
     setActiveTag(tag)
     setTag(tag)
+    navigate('1')
   }
   
   return ( 

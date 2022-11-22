@@ -1,9 +1,10 @@
-import { createContext, useMemo, useState } from "react";
+import { createContext, useMemo, useState, useEffect } from 'react';
 import Input from "./Input/Input";
-import List from "./List/List";
 import { IContext, ITodos, ICreate } from '../interfaces/interfaces';
 import useTodos from "./hooks/useTodos";
 import Tags from "./List/Tags";
+import PaginationComponent from "./Pagination";
+import AppRouter from "./Router";
 
 interface IListForm {
   storage: ITodos[] | [];
@@ -14,6 +15,7 @@ export const TodosContext = createContext({} as IContext);
 export function ListForm({storage}: IListForm) {
   const [tag, setTag] = useState('')
   const {todosList, setTodos, setCreateTodo} = useTodos(storage, tag);
+  const itemInPage = 10;
 
   const tagsArray = useMemo(()=>{
     const allTags = todosList.map((todo: ITodos) => todo.tags)
@@ -44,7 +46,6 @@ export function ListForm({storage}: IListForm) {
         return todo;
       }
     });
-    console.log(todos)
     setTodos(todos)
 }
 
@@ -52,14 +53,19 @@ export function ListForm({storage}: IListForm) {
     onToggleTodos: toggleHandler,
     onRemoveTodos: removeHandler,
     onEdit: editTodos,
+    limit: itemInPage
   }
+  const count = Math.ceil(todosList.length/itemInPage)
+
+  console.log(todosList)
 
   return (
     < TodosContext.Provider value={context}>
       <div className="list">
         <Input createTodos={setCreateTodo} />
-        <List todos={todosList} />
+        <AppRouter todos={todosList} />
         <Tags tags={tagsArray} setTag={setTag} tag={'all'}/>
+        <PaginationComponent count={count} />
       </div>
     </TodosContext.Provider>
     );
