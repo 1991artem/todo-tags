@@ -1,5 +1,6 @@
 import Pagination from 'react-bootstrap/Pagination';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
+import PaginationClass from './helps/PaginationClass';
 
 interface ICount {
   count: number;
@@ -9,10 +10,8 @@ function PaginationComponent({count}: ICount) {
   let navigate = useNavigate();
   let location = useLocation();
   const page = +location.pathname.replace(/\//ig, '');
-  const pagination: number[] = [];
-  for (var i = 1; i <= count; i++) {
-    pagination.push(i);
-  }
+  
+  const pagination: number[] = PaginationClass.madePaginationsPageArray(count)
 
   const prev = () => {
     if(!page) {

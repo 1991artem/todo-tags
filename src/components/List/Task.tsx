@@ -3,7 +3,7 @@ import { ITodos, IContext, ICreate } from '../../interfaces/interfaces';
 import useInput from '../hooks/useInput';
 import { TodosContext } from '../ListForm';
 import Tags from './Tags';
-import addTags from '../hooks/addTags';
+import addTags from '../helps/addTags';
 
 interface ITask {
   task: ITodos;

@@ -5,6 +5,7 @@ import useTodos from "./hooks/useTodos";
 import Tags from "./List/Tags";
 import PaginationComponent from "./Pagination";
 import AppRouter from "./Router";
+import TagsClass from './helps/TagsClass';
 
 interface IListForm {
   storage: ITodos[] | [];
@@ -18,9 +19,7 @@ export function ListForm({storage}: IListForm) {
   const itemInPage = 10;
 
   const tagsArray = useMemo(()=>{
-    const allTags = todosList.map((todo: ITodos) => todo.tags)
-    const tags = new Set(allTags.flat());
-    return Array.from(tags)
+    return TagsClass.madeTagsArray(todosList)
   }, [todosList])
 
   const toggleHandler = (id: number) => {

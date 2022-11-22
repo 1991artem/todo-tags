@@ -8,13 +8,13 @@ import Task from "./Task";
 import { useLocation } from 'react-router-dom';
 import { useContext, useEffect, useState } from 'react';
 import { TodosContext } from '../ListForm';
+import PaginationClass from '../helps/PaginationClass';
 
 function List({todos}: ITransferTodos) {
   const [data, setData] = useState(todos)
   const {limit} = useContext(TodosContext)
   let location = useLocation();
-  const page = +location.pathname.replace(/\//ig, '');
-  const start = limit * (page-1)
+  
   useEffect(()=>{
     setData(todos)
   }, [todos])
@@ -25,7 +25,7 @@ function List({todos}: ITransferTodos) {
         todos.length ?
         <TransitionGroup appear={true}>
           {
-        data.slice(start, start+limit).map((todos: ITodos) => (
+        PaginationClass.madeTodosPageArray(data, location.pathname, limit).map((todos: ITodos) => (
           <CSSTransition
           key={todos.id}
           timeout={300}
