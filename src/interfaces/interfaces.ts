@@ -6,6 +6,12 @@ export interface ITodos {
 }
 
 export interface IContext {
-  onRemove: (id: number) => void;
-  onToggle: (id: number) => void;
+  onRemoveTodos: (id: number) => void;
+  onToggleTodos: (id: number) => void;
+  onEdit: (id: number, changeParams: ICreate) => void;
+}
+
+export interface ICreate {
+  title: string;
+  tags: string[];
 }

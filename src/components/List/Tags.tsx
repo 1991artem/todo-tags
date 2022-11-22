@@ -7,16 +7,18 @@ interface ITags {
 }
 
 function Tags({tags, setTag}:ITags) {
-  const [activeTag, setActiveTag] = useState(tags[0]);
+  const allTag = ['all']
+  const tagsArray = [...allTag, ...tags]
+  const [activeTag, setActiveTag] = useState(tagsArray[0]);
   const tagsClickHandler = (tag: string) => {
-    setTag(tag)
     setActiveTag(tag)
+    setTag(tag)
   }
   
   return ( 
       <ul className="tags">
         {
-          tags.map(tag => 
+          tagsArray.map(tag => 
           <li key={tag}
           onClick={()=>tagsClickHandler(tag)}>
             <NavLink

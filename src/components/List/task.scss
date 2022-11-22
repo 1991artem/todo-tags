@@ -30,6 +30,15 @@ $button-color: rgb(207, 204, 204);
       cursor: pointer;
     }
   }
+  div {
+    display: flex;
+    flex-direction: column;
+  }
+  input {
+    background-color: $button-color;
+    border: none;
+    outline:none;
+  }
 }
 
 .complited {

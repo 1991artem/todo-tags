@@ -1,11 +1,9 @@
 import { useState, useEffect, useMemo } from 'react';
-import { ITodos } from '../../interfaces/interfaces';
-import useTags from './useTags';
+import { ICreate, ITodos } from '../../interfaces/interfaces';
 
-const useTodos = (storage: ITodos[]) => {
+const useTodos = (storage: ITodos[], tag: string) => {
   const [todos, setTodos] = useState(storage);
-  const [todoTitle, setTodoTitle] = useState('');
-  const {tagsArray, tag, defaultTags, getTags, setTag} = useTags(todos);
+  const [createTodo, setCreateTodo] = useState({} as ICreate);
 
   useEffect(()=>{
     if(storage){
@@ -15,7 +13,7 @@ const useTodos = (storage: ITodos[]) => {
 
 
   const todosList = useMemo(()=>{
-    if(defaultTags.includes(tag)){
+    if(!tag || tag === 'all'){
       return [...todos]
     } else {
       return [...todos].filter((todo: ITodos) => {if(todo.title.includes(tag)){
@@ -24,16 +22,16 @@ const useTodos = (storage: ITodos[]) => {
     }
   }, [tag, todos]);
 
-  const addTodoToList = (title: string) => {
-    if(title){
+  const addTodoToList = () => {
+    if(createTodo.title){
       const todo: ITodos = {
         id: Date.now(),
-        title: title,
+        title: createTodo.title,
         completed: false,
-        tags: getTags(title)
+        tags: createTodo.tags
       }
       setTodos([...todosList, todo])
-      setTodoTitle('')
+      setCreateTodo({} as ICreate)
     }
   }
 
@@ -42,10 +40,10 @@ const useTodos = (storage: ITodos[]) => {
   }, [todos])
 
   useEffect(()=>{
-  addTodoToList(todoTitle);
-  }, [todoTitle])
+  addTodoToList();
+  }, [createTodo])
 
-  return {todosList, tagsArray, setTodoTitle, setTodos, setTag}
+  return {todosList, setCreateTodo, setTodos}
 }
 
 export default useTodos

@@ -1,25 +1,36 @@
-import { useRef, KeyboardEvent, useState } from 'react';
+import { useRef, KeyboardEvent, useState, useEffect } from 'react';
 import { InputGroup, Form, Button } from "react-bootstrap";
+import { ICreate } from '../../interfaces/interfaces';
+import useInput from '../hooks/useInput';
 
 interface IInput {
-  setTodoTitle: (value: string) => void;
+  createTodos: (value: ICreate) => void;
 }
 
-function Input({setTodoTitle}: IInput) {
+function Input({createTodos}: IInput) {
   const inputRef = useRef<HTMLInputElement>(null);
-  const [tags, setTags] = useState([] as string[])
-
+  const [tagsArray, setTagsArray] = useState([] as string[])
+  const {tags, setValue} = useInput('')
   const tagsEndPoint = {
     start: '',
-    end: '',
     flag: false
   }
 
-  const setValue = () => {
+  useEffect(()=>{
     if(inputRef.current){
-      setTodoTitle(inputRef.current.value);
+      createTodos({
+        title: inputRef.current.value,
+        tags
+      }
+      );
       inputRef.current.value = '';
-      setTags([])
+    }
+  }, [tags])
+
+
+  const buttonHandler = () => {
+    if(inputRef.current){
+      setValue(inputRef.current.value)
     }
   }
 
@@ -31,18 +42,13 @@ function Input({setTodoTitle}: IInput) {
       }
       if(event.key === ' '){
         if(tagsEndPoint.flag){
-          tagsEndPoint.end = inputRef.current.value
-          const tag = [tagsEndPoint.end.slice(tagsEndPoint.start.length)];
-          setTags([...tags, ...tag]);
+          const tags = inputRef.current.value.slice(tagsEndPoint.start.length).split('#');
+          setTagsArray([...tagsArray, ...tags])
+          tagsEndPoint.flag = false;
         }
       }
       if(event.key === 'Enter'){
-        if(tagsEndPoint.flag){
-          tagsEndPoint.end = inputRef.current.value
-          const tag = [tagsEndPoint.end.slice(tagsEndPoint.start.length)];
-          setTags([...tags, ...tag]);
-        }
-        setValue();
+        setValue(inputRef.current.value)
       }
     }
 
@@ -50,7 +56,7 @@ function Input({setTodoTitle}: IInput) {
 
   return ( 
     <>
-    <Form.Label style={{color: 'green'}}>{tags.length?`tags: ${tags.join("  ")}`:''}</Form.Label>
+    <p style={{color: 'green', margin: 0}}>{tagsArray.join()?`tags: ${tagsArray.join("  ")}`:''}</p>
     <InputGroup className="mb-3">
     <Form.Control
       placeholder="Enter note title"
@@ -60,7 +66,7 @@ function Input({setTodoTitle}: IInput) {
     <Button 
     variant="outline-secondary" 
     id="button-addon2"
-    onClick={setValue}
+    onClick={buttonHandler}
     >
       Save
     </Button>

@@ -1,5 +1,5 @@
-import { useContext } from 'react';
-import { ITodos, IContext } from '../../interfaces/interfaces';
+import { useContext, useState } from 'react';
+import { ITodos, IContext, ICreate } from '../../interfaces/interfaces';
 import { TodosContext } from '../ListForm';
 
 interface ITask {
@@ -7,13 +7,47 @@ interface ITask {
 }
 
 function Task({task}: ITask) {
-  const {onRemove, onToggle}: IContext = useContext(TodosContext)
-  const {title, completed, id} = task;
+  const [edit, setEdit] = useState(false)
+  const [value, setValue] = useState(task.title);  
+  const {onRemoveTodos, onToggleTodos, onEdit}: IContext = useContext(TodosContext)
+  const {title, completed, id, tags} = task;
+
+  const changeParams: ICreate = {
+    title: value,
+    tags: tags
+  }
+
+  const keyPressHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setValue(e.target.value);
+  }
+
+  const getTagsFromTitle = (string: string) => {
+    const array: string[] = string.split(' ')
+    const tagsArray = array.filter((str: string) => str.includes('#'))
+    return tagsArray.map((tag: string) => {
+      if(tag.split('#').length === 1){
+        return tag[0];
+      } else {
+        return tag.split('#')
+      }
+    }).flat();
+  }
+
   const complitedHandler = () => {
-    onToggle(id)
+    onToggleTodos(id)
   }
   const removedHandler = () => {
-    onRemove(id)
+    onRemoveTodos(id)
+  }
+
+  const editTodos = () =>{
+    setEdit(prev => !prev)
+  }
+
+  const saveEdit = () => {
+    setEdit(prev => !prev)
+    changeParams.tags = getTagsFromTitle(changeParams.title)
+    onEdit(id, changeParams)
   }
 
   return ( 
@@ -31,10 +65,29 @@ function Task({task}: ITask) {
         ''
       }
     </span>
+    {
+      !edit ? 
       <p className={completed?'complited':''}>{title}</p>
+      :
+      <input
+        autoFocus
+        value={value}
+        onChange={keyPressHandler}
+      />
+    }
+      
+      <div>
       <button onClick={removedHandler}>&#10060;</button>
+      {
+        edit?
+        <button onClick={saveEdit}>&#127383;</button>
+        :
+        <button onClick={editTodos}>&#128394;</button>
+      }
+      
+      </div>
     </div>
-   );
+    );
 }
 
 export default Task;
