@@ -16,7 +16,7 @@ const useTodos = (storage: ITodos[], tag: string) => {
     if(!tag || tag === 'all'){
       return [...todos]
     } else {
-      return [...todos].filter((todo: ITodos) => {if(todo.title.includes(tag)){
+      return [...todos].filter((todo: ITodos) => {if(todo.tags.includes(tag)){
         return todo;
       }});
     }

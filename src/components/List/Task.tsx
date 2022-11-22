@@ -12,6 +12,7 @@ interface ITask {
 function Task({task}: ITask) {
   const [edit, setEdit] = useState(false)
   const {tags, setValue, title} = useInput(task.title)
+  const [string, setString] = useState(addTags(title, task.tags))
   const {onRemoveTodos, onToggleTodos, onEdit}: IContext = useContext(TodosContext)
   const {completed, id} = task;
 
@@ -21,7 +22,8 @@ function Task({task}: ITask) {
   }
 
   const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    setValue(e.target.value);
+    setString(e.target.value);
+    setValue(e.target.value)
   }
 
   const keyPressHandler = (event: KeyboardEvent) => {
@@ -38,12 +40,13 @@ function Task({task}: ITask) {
   }
 
   const editTodos = () =>{
+    setValue(string)
     setEdit(prev => !prev)
   }
 
   const saveEdit = () => {
-    setEdit(prev => !prev)
     onEdit(id, changeParams)
+    setEdit(prev => !prev)
   }
 
 
@@ -72,7 +75,7 @@ function Task({task}: ITask) {
       :
       <input
         autoFocus
-        value={addTags(title, task.tags)}
+        value={string}
         onChange={onChangeHandler}
         onKeyPress={keyPressHandler}
       />

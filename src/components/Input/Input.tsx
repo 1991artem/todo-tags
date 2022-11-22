@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useRef, KeyboardEvent, useState, useEffect } from 'react';
 import { InputGroup, Form, Button } from "react-bootstrap";
 import { ICreate } from '../../interfaces/interfaces';
@@ -10,7 +11,7 @@ interface IInput {
 function Input({createTodos}: IInput) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [tagsArray, setTagsArray] = useState([] as string[])
-  const {tags, setValue} = useInput('')
+  const {tags, setValue, title} = useInput('')
   const tagsEndPoint = {
     start: '',
     flag: false
@@ -19,7 +20,7 @@ function Input({createTodos}: IInput) {
   useEffect(()=>{
     if(inputRef.current){
       createTodos({
-        title: inputRef.current.value,
+        title,
         tags
       }
       );
