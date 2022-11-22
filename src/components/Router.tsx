@@ -8,12 +8,12 @@ function AppRouter({todos}: ITransferTodos) {
     <Routes>
       <Route
         path=""
-        element={<Navigate to="/1" replace />}
+        element={<Navigate to="1" replace />}
     />
-      <Route path="/:id" element={<List todos={todos}/>} errorElement={<ErrorPage />}/>
-      <Route path="/*" element={<ErrorPage />} errorElement={<ErrorPage />}/>
+      <Route path=":id" element={<List todos={todos}/>} errorElement={<ErrorPage />}/>
+      <Route path="*" element={<ErrorPage />} errorElement={<ErrorPage />}/>
     </Routes>
-   );
+    );
 }
 
 export default AppRouter;

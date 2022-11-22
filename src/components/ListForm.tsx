@@ -64,7 +64,10 @@ export function ListForm({storage}: IListForm) {
       <div className="list">
         <Input createTodos={setCreateTodo} />
         <AppRouter todos={todosList} />
-        <Tags tags={tagsArray} setTag={setTag} tag={'all'}/>
+        { todosList.length ?
+          <Tags tags={tagsArray} setTag={setTag} tag={'all'}/>
+          : null
+        }
         <PaginationComponent count={count} />
       </div>
     </TodosContext.Provider>
