@@ -3,11 +3,12 @@ import { NavLink } from "react-bootstrap";
 
 interface ITags {
   tags: string[];
+  tag: string;
   setTag: (value: string) => void;
 }
 
-function Tags({tags, setTag}:ITags) {
-  const allTag = ['all']
+function Tags({tags, setTag, tag}:ITags) {
+  const allTag = [tag]
   const tagsArray = [...allTag, ...tags]
   const [activeTag, setActiveTag] = useState(tagsArray[0]);
   const tagsClickHandler = (tag: string) => {
@@ -17,6 +18,7 @@ function Tags({tags, setTag}:ITags) {
   
   return ( 
       <ul className="tags">
+        tags: 
         {
           tagsArray.map(tag => 
           <li key={tag}

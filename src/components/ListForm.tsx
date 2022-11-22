@@ -59,7 +59,7 @@ export function ListForm({storage}: IListForm) {
       <div className="list">
         <Input createTodos={setCreateTodo} />
         <List todos={todosList} />
-        <Tags tags={tagsArray} setTag={setTag}/>
+        <Tags tags={tagsArray} setTag={setTag} tag={'all'}/>
       </div>
     </TodosContext.Provider>
     );

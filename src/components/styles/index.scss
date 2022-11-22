@@ -11,7 +11,6 @@ $background-app: rgb(207, 204, 204);
 
 #root {
   width: 100vw;
-  height: 100vh;
 
   display: flex;
   justify-content: center;
@@ -50,6 +49,7 @@ $background-app: rgb(207, 204, 204);
 .tags {
   display: flex;
   list-style-type: none;
+  justify-content: center;
   flex-wrap: wrap;
   li{
     margin: 0 5px;

@@ -2,6 +2,8 @@ import { ChangeEvent, KeyboardEvent, useContext, useState } from 'react';
 import { ITodos, IContext, ICreate } from '../../interfaces/interfaces';
 import useInput from '../hooks/useInput';
 import { TodosContext } from '../ListForm';
+import Tags from './Tags';
+import addTags from '../hooks/addTags';
 
 interface ITask {
   task: ITodos;
@@ -9,8 +11,7 @@ interface ITask {
 
 function Task({task}: ITask) {
   const [edit, setEdit] = useState(false)
-  const [title, setTitle] = useState(task.title);
-  const {tags, setValue} = useInput(title)
+  const {tags, setValue, title} = useInput(task.title)
   const {onRemoveTodos, onToggleTodos, onEdit}: IContext = useContext(TodosContext)
   const {completed, id} = task;
 
@@ -20,7 +21,6 @@ function Task({task}: ITask) {
   }
 
   const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    setTitle(e.target.value);
     setValue(e.target.value);
   }
 
@@ -46,6 +46,7 @@ function Task({task}: ITask) {
     onEdit(id, changeParams)
   }
 
+
   return ( 
     <div className="task">
       <span
@@ -63,11 +64,15 @@ function Task({task}: ITask) {
     </span>
     {
       !edit ? 
+      <div>
       <p className={completed?'complited':''}>{title}</p>
+      <Tags tags={task.tags} setTag={()=>{}} tag={''}/>
+      </div>
+
       :
       <input
         autoFocus
-        value={title}
+        value={addTags(title, task.tags)}
         onChange={onChangeHandler}
         onKeyPress={keyPressHandler}
       />

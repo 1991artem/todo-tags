@@ -35,6 +35,8 @@ $button-color: rgb(207, 204, 204);
     flex-direction: column;
   }
   input {
+    width: 90%;
+    text-align: center;
     background-color: $button-color;
     border: none;
     outline:none;
