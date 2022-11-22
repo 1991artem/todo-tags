@@ -1,5 +1,6 @@
-import { useContext, useState } from 'react';
+import { ChangeEvent, KeyboardEvent, useContext, useState } from 'react';
 import { ITodos, IContext, ICreate } from '../../interfaces/interfaces';
+import useInput from '../hooks/useInput';
 import { TodosContext } from '../ListForm';
 
 interface ITask {
@@ -8,29 +9,25 @@ interface ITask {
 
 function Task({task}: ITask) {
   const [edit, setEdit] = useState(false)
-  const [value, setValue] = useState(task.title);  
+  const [title, setTitle] = useState(task.title);
+  const {tags, setValue} = useInput(title)
   const {onRemoveTodos, onToggleTodos, onEdit}: IContext = useContext(TodosContext)
-  const {title, completed, id, tags} = task;
+  const {completed, id} = task;
 
   const changeParams: ICreate = {
-    title: value,
-    tags: tags
+    title,
+    tags
   }
 
-  const keyPressHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    setTitle(e.target.value);
     setValue(e.target.value);
   }
 
-  const getTagsFromTitle = (string: string) => {
-    const array: string[] = string.split(' ')
-    const tagsArray = array.filter((str: string) => str.includes('#'))
-    return tagsArray.map((tag: string) => {
-      if(tag.split('#').length === 1){
-        return tag[0];
-      } else {
-        return tag.split('#')
-      }
-    }).flat();
+  const keyPressHandler = (event: KeyboardEvent) => {
+    if(event.key === 'Enter'){
+      saveEdit()
+    }
   }
 
   const complitedHandler = () => {
@@ -46,7 +43,6 @@ function Task({task}: ITask) {
 
   const saveEdit = () => {
     setEdit(prev => !prev)
-    changeParams.tags = getTagsFromTitle(changeParams.title)
     onEdit(id, changeParams)
   }
 
@@ -71,8 +67,9 @@ function Task({task}: ITask) {
       :
       <input
         autoFocus
-        value={value}
-        onChange={keyPressHandler}
+        value={title}
+        onChange={onChangeHandler}
+        onKeyPress={keyPressHandler}
       />
     }
       

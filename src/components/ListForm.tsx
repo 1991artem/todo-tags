@@ -54,8 +54,6 @@ export function ListForm({storage}: IListForm) {
     onEdit: editTodos,
   }
 
-  console.log(todosList)
-
   return (
     < TodosContext.Provider value={context}>
       <div className="list">

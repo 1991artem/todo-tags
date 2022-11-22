@@ -23,6 +23,7 @@ function Input({createTodos}: IInput) {
         tags
       }
       );
+      setTagsArray([])
       inputRef.current.value = '';
     }
   }, [tags])
