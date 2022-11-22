@@ -33,7 +33,7 @@ function PaginationComponent({count}: ICount) {
       <Pagination.First onClick={()=> navigate('1')}/>
       <Pagination.Prev onClick={prev}/>
       {
-      pagination.map((pageNumber: number, index: number)=>(
+      pagination.map((pageNumber: number)=>(
         <NavLink className={'page-link'} to={`/${pageNumber}`} key={Math.trunc(Date.now()*Math.random())}>{pageNumber}</NavLink>
       ))
 
